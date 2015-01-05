@@ -2,5 +2,5 @@ secret.yml
 *.pyc
 out.json
 rests.json
-rests_hongo.json
+/* rests_hongo.json */
 
