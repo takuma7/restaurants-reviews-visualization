@@ -38,7 +38,6 @@ function initialize(error, rests) {
   // }
   var overlay = new google.maps.OverlayView();
   overlay.onAdd = function(){
-    console.log("hi");
     var layer = d3.select(this.getPanes().overlayLayer).append("div").attr("class", "layer");
     var svg = layer.append("svg").append("g");
     var markerOverlay = this;
@@ -48,6 +47,9 @@ function initialize(error, rests) {
       var pixelCoordinates = overlayProjection.fromLatLngToDivPixel(googleCoordinates);
       return [pixelCoordinates.x + 4000, pixelCoordinates.y + 4000];
     };
+    google.maps.event.addListener(layer, 'mouseover', function(event){
+      console.log("hoge");
+    });
 
     path = d3.geo.path().projection(googleMapProjection);　
     console.log(rests);
@@ -63,7 +65,8 @@ function initialize(error, rests) {
         .attr("opacity", 0.5)
         .attr("fill", "red")
         .attr("cx", function(d){return googleMapProjection([d.location.latitude, d.location.longitude])[0];})
-        .attr("cy", function(d){return googleMapProjection([d.location.latitude, d.location.longitude])[1];});
+        .attr("cy", function(d){return googleMapProjection([d.location.latitude, d.location.longitude])[1];})
+        .on("mouseover", function(d){console.log("hi");});
 
     };
   };
