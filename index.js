@@ -14,26 +14,8 @@ function initialize(error, rests) {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
   };
   var map = new google.maps.Map(mapCanvas, mapOptions);
-  
-  // var infowindow = new google.maps.InfoWindow();
-  // var marker;
-  // for (var i = 0; i < rests.length; i++) {
-  //   marker = new google.maps.Marker({
-  //     position: new google.maps.LatLng(rests[i].location.latitude_wgs84, rests[i].location.longitude_wgs84),
-  //     map: map
-  //   });
-  //   google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
-  //   	console.log(rests[i].name.name);
-  //     return function() {
-  //       infowindow.setContent("<b>" + rests[i].name.name + "<b> <br>" +
-  //         rests[i].contacts.address + "<br> Tel:" +
-  //         rests[i].contacts.tel);
-  //       infowindow.open(map, marker);
-  //     }
-  //   })(marker, i));
-  // }
-
   var overlay = new google.maps.OverlayView();
+  var gnaviAPI = new GnaviAPI();
   overlay.onAdd = function() {
     var layer = d3.select(this.getPanes().overlayMouseTarget).append("div").attr("class", "layer");
     var svg = layer.append("svg").append("g");
@@ -45,7 +27,7 @@ function initialize(error, rests) {
     };
 
     path = d3.geo.path().projection(googleMapProjection);
-    console.log(rests);
+    // console.log(rests);
     svg.selectAll("circle")
       .data(rests)
       .enter().append("circle");
@@ -59,12 +41,41 @@ function initialize(error, rests) {
         .attr("cx", function(d) {return googleMapProjection([d.location.latitude_wgs84, d.location.longitude_wgs84])[0];})
         .attr("cy", function(d) {return googleMapProjection([d.location.latitude_wgs84, d.location.longitude_wgs84])[1];})
         .on("mouseover", function (d) {
-        	test(d);
+          // test(d);
         });
+        var center = map.getCenter();
+        var location = {
+          latitude: center.lat(),
+          longitude: center.lng(),
+        };
+        gnaviAPI.restSearchWithLocationAndRange(location, 3000);
     };
   };
   overlay.setMap(map);
 }
+
+function update(){
+}
+
+function GnaviAPI() {
+  this.keyid = "add0591d19cd0bbeabc34cb80cd0d06e";
+}
+
+GnaviAPI.prototype.restSearchWithLocationAndRange = function(location, range){
+  var options = {
+    keyid: this.keyid,
+    format: "json",
+    hit_per_page: 500,
+    offset_page: 1,
+    latitude: location.latitude,
+    longitude: location.longitude,
+    range: range,
+  };
+  var rests = [];
+  $.get("http://api.gnavi.co.jp/ver2/RestSearchAPI/", options, function(res){
+    console.log(res);
+  });
+};
 
 function test (d) {
 	console.log(d.name.name);

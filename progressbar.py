@@ -17,11 +17,11 @@ class Progressbar:
     def draw(self, curval=0, maxval=100):
         """Draw Progressbar"""
         curwidth = int(self.width * curval/float(maxval))
-        percentage = int(curval/float(maxval)*100)
+        percentage = (curval/float(maxval)*100)
         barstr = self.label + ":\t["
         barstr += "#"*curwidth
         barstr += " "*(self.width-curwidth)
-        barstr += "] %i%%" % percentage
+        barstr += "] %3.3f%%" % percentage
         self.fd.write("\r%s" % barstr)
         self.fd.flush()
         if percentage == 100:
