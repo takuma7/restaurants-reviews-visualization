@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# gnavi_data.restaurantsにあるレストランについている口コミをぐるなびAPI
+# より取得しvotesに格納する
 
 import pymongo
 import yaml
@@ -18,6 +20,7 @@ res_collection = db['restaurants']
 
 pbar = progressbar.Progressbar(width=80)
 
+# 口コミ取得URLを組み立てる関数
 def photo_url(keyid, format, shop_id, hit_per_page, offset_page):
     return "http://api.gnavi.co.jp/ouen/ver1/PhotoSearch?keyid={keyid}&format={format}&shop_id={shop_id}&hit_per_page={hit_per_page}&offset_page={offset_page}".format(keyid=keyid, format=format, shop_id=shop_id, hit_per_page=hit_per_page, offset_page=offset_page)
 
@@ -26,6 +29,7 @@ rests_count = rests.count()
 print "%s restaurants to go"%(rests_count)
 i = 0
 
+# 各レストランについて口コミを取得していく
 for cur in rests:
     shop_id = cur['id']
     # print cur['name']['name']

@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+# MongoDBの内容をjsonに書き出すスクリプト
 
 import pymongo
 import sys

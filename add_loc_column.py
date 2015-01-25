@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+# 2Dインデックスを張るためにlocキーを追加し緯度経度の配列をvalueにしたものを
+# 追加する。
+# すでにcollect_restaurants_data.pyを実行しgnavi_data.restaurantsにレストラン
+# 情報が入っていることを前提とする。
 
 import pymongo
 import yaml

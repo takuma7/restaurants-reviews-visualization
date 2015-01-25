@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 口コミ情報のメタデータ（平均評価など）を計算する
 
 import pymongo
 import yaml
@@ -34,9 +35,9 @@ for cur in rests:
             ]
     votes = cur['votes']
     votes_count = len(votes)
-    total_score = 0
-    score_count = 0
-    avg_score = 0
+    total_score = 0 # すべてのスコアの合計
+    score_count = 0 # スコアが何件ついたか
+    avg_score = 0   # 平均スコア
 
     if votes:
         for vote in votes:
